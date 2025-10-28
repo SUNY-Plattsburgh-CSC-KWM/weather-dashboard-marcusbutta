@@ -1,0 +1,29 @@
+body {
+    background: #24273a;
+    color: #cad3f5;
+}
+
+.inputs {
+    margin: auto;
+    width: 400pt;
+}
+
+input[type=text] {
+    border: 1px solid #6e738d;
+    border-radius: 4px;
+    background: #363a4f;
+    color: #cad3f5;
+    padding: 5px;
+}
+
+#submit {
+    border: 1px solid #6e738d;
+    border-radius: 4px;
+    background: #363a4f;
+    color: #cad3f5;
+    padding: 5px;
+}
+
+#submit:hover {
+    background: #494d64;
+}
