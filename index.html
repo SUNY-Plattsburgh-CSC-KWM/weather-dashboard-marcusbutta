@@ -12,7 +12,12 @@
         <input type="text" id="latitude" name="latitude" placeholder="Latitude">
         <label for="longitude">Longitude:</label>
         <input type="text" id="longitude" name="longitude" placeholder="Longitude">
-        <button onclick="getCords()" id="submit">Go!</button>
+        <button onclick="changeUnit()" id="unit">C°</button>
+    </div>
+    <div class="inputs">
+        <label for="forecast-days">Days:</label>
+        <input type="number" id="forecast-days" name="forecast-days" placeholder="Days">
+        <button onclick="getForecast()" id="submit">Forecast!</button>
     </div>
 </body>
 </html>
