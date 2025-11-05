@@ -2,6 +2,11 @@ let latitude;
 let longitude;
 let days;
 let unit;
+let startDate;
+let endDate;
+let temperatureCheck;
+let dewpointCheck;
+let windspeedCheck;
 
 const weatherCodeToIcon = { //object was originally from claude, modified to use material icons instead of emojis
     0: 'sunny',   // Clear sky
@@ -97,6 +102,53 @@ async function buildForecast() {
         }
     } catch (error) {
         console.log("Error: " + error);
+    }
+}
+
+async function getHistory() {
+    latitude = document.getElementById("latitude").value;
+    longitude = document.getElementById("longitude").value;
+    startDate = document.getElementById("start-date").value;
+    endDate = document.getElementById("end-date").value;
+    switch (document.getElementById("unit").innerText) {
+        case "F°": unit = "fahrenheit"; break;
+        case "C°": unit = "celsius"; break;
+    }
+
+    if (document.getElementById("temperature").checked === true) {
+        temperatureCheck = "temperature_2m,";
+    } else { temperatureCheck = ""; }
+    if (document.getElementById("dewpoint").checked === true) {
+        dewpointCheck = "dewpoint_2m,";
+    } else { dewpointCheck = ""; }
+    if (document.getElementById("windspeed").checked === true) {
+        windspeedCheck = "windspeed_10m,";
+    } else { windspeedCheck = ""; }
+
+    try {
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=${temperatureCheck}${dewpointCheck}${windspeedCheck}&start_date=${startDate}&end_date=${endDate}&timezone=America%2FNew_York&temperature_unit=${unit}`);
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        let history = {};
+        for (let i = 0; i < data.hourly.time.length; i++) {
+            history[data.hourly.time[i]] = {}
+            if (temperatureCheck === "temperature_2m,") {
+                history[data.hourly.time[i]].temperature = data.hourly.temperature_2m[i];
+            }
+            if (dewpointCheck === "dewpoint_2m,") {
+                history[data.hourly.time[i]].dewpoint = data.hourly.dewpoint_2m[i];
+            }
+            if (windspeedCheck === "windspeed_10m,") {
+                history[data.hourly.time[i]].windspeed = data.hourly.windspeed_10m[i];
+            }
+        }
+        console.log(history);
+        return history;
+    } catch (error) {
+        console.error(`Could not get weather data: ${error}`);
     }
 }
 

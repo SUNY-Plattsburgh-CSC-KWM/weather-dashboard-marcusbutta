@@ -12,7 +12,7 @@ body {
     padding: 5px;
 }
 
-input[type=text],input[type=number] {
+input[type=text],input[type=number],input[type=date] {
     border: 1px solid #6e738d;
     border-radius: 4px;
     background: #363a4f;
@@ -20,7 +20,7 @@ input[type=text],input[type=number] {
     padding: 5px;
 }
 
-#submit,#unit {
+#submit,#history,#unit {
     border: 1px solid #6e738d;
     border-radius: 4px;
     background: #363a4f;
@@ -28,7 +28,7 @@ input[type=text],input[type=number] {
     padding: 5px;
 }
 
-#submit:hover,#unit:hover {
+#submit:hover,#unit:hover,#history:hover {
     background: #494d64;
 }
 
@@ -38,6 +38,11 @@ input[type=text],input[type=number] {
     padding: 5px;
     justify-content: center;
 }
+
+#startHistoryInput {
+    padding-top: 30px;
+}
+
 .square {
     background: #363a4f;
     border: 3px solid #6e738d;
