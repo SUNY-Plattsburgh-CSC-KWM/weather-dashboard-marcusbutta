@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 body {
     background: #24273a;
     color: #cad3f5;
+    font-family: 'Inter', sans-serif;
 }
 
 .inputs {
@@ -39,11 +42,16 @@ input[type=text],input[type=number] {
     background: #363a4f;
     border: 3px solid #6e738d;
     width: 80px;
-    height: 150px;
+    height: 120px;
     text-align: center;
     line-height: 0.5;
 }
 
+.forecast-date {
+    font-weight: bold;
+}
+
 .forecast-high, .forecast-low {
     font-size: small;
+    font-weight: 300;
 }
