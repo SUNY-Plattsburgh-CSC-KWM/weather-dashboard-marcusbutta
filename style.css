@@ -28,3 +28,22 @@ input[type=text],input[type=number] {
 #submit:hover,#unit:hover {
     background: #494d64;
 }
+
+#forecast {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    justify-content: center;
+}
+.square {
+    background: #363a4f;
+    border: 3px solid #6e738d;
+    width: 80px;
+    height: 150px;
+    text-align: center;
+    line-height: 0.5;
+}
+
+.forecast-high, .forecast-low {
+    font-size: small;
+}

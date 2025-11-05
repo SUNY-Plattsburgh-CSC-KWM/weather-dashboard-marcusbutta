@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="main.js"></script>
 </head>
 <body>
@@ -16,8 +18,10 @@
     </div>
     <div class="inputs">
         <label for="forecast-days">Days:</label>
-        <input type="number" id="forecast-days" name="forecast-days" placeholder="Days">
-        <button onclick="getForecast()" id="submit">Forecast!</button>
+        <input type="number" id="forecast-days" name="forecast-days" placeholder="Days (16 Max)">
+        <button onclick="buildForecast()" id="submit">Forecast!</button>
+    </div>
+    <div id="forecast">
     </div>
 </body>
 </html>
