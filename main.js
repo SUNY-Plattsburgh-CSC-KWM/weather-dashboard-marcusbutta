@@ -132,23 +132,31 @@ async function getHistory() {
         }
         const data = await response.json();
         console.log(data);
-        let history = {};
-        for (let i = 0; i < data.hourly.time.length; i++) {
-            history[data.hourly.time[i]] = {}
+        let history = [];
+        for (let i = 0; i < data.hourly.time.length/24; i++) {
+            history.push({  date: data.hourly.time[i+24].match(/-(\d{2}-\d{2})/)[1]  })
             if (temperatureCheck === "temperature_2m,") {
-                history[data.hourly.time[i]].temperature = data.hourly.temperature_2m[i];
+                history[i].temperature = (data.hourly.temperature_2m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1); // used claude to help with averaging and rounding
             }
             if (dewpointCheck === "dewpoint_2m,") {
-                history[data.hourly.time[i]].dewpoint = data.hourly.dewpoint_2m[i];
+                history[i].dewpoint = (data.hourly.dewpoint_2m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1);
             }
             if (windspeedCheck === "windspeed_10m,") {
-                history[data.hourly.time[i]].windspeed = data.hourly.windspeed_10m[i];
+                history[i].windspeed =  (data.hourly.windspeed_10m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1);
             }
         }
-        console.log(history);
         return history;
     } catch (error) {
         console.error(`Could not get weather data: ${error}`);
+    }
+}
+
+async function buildHistory() {
+    try {
+        const history = await getHistory();
+        console.log(history);
+    } catch(error) {
+        console.error("Error: " + error);
     }
 }
 

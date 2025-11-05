@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
     <script src="main.js"></script>
 </head>
 <body>
@@ -34,9 +35,11 @@
         <input type="checkbox" id="dewpoint" name="dewpoint">
         <label for="windspeed">Wind Speed:</label>
         <input type="checkbox" id="windspeed" name="windspeed">
-        <button onclick="getHistory()" id="history">History!</button>
+        <button onclick="buildHistory()" id="history-button">History!</button>
     </div>
     <div id="forecast">
+    </div>
+    <div id="history">
     </div>
 </body>
 </html>

@@ -20,7 +20,7 @@ input[type=text],input[type=number],input[type=date] {
     padding: 5px;
 }
 
-#submit,#history,#unit {
+#submit,#history-button,#unit {
     border: 1px solid #6e738d;
     border-radius: 4px;
     background: #363a4f;
@@ -28,7 +28,7 @@ input[type=text],input[type=number],input[type=date] {
     padding: 5px;
 }
 
-#submit:hover,#unit:hover,#history:hover {
+#submit:hover,#unit:hover,#history-button:hover {
     background: #494d64;
 }
 
