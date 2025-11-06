@@ -160,8 +160,7 @@ async function buildHistory() {
         $("#history").append($("<canvas>").attr("id", "historyChart"));
         $("#history")
             .css("background", "#363a4f")
-            .css("border-radius", "5px")
-            .css("border", "2px solid #6e738d");
+            .css("border", "3px solid #6e738d");
 
         const ctx = document.getElementById("historyChart");
 
