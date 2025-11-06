@@ -60,3 +60,9 @@ input[type=text],input[type=number],input[type=date] {
     font-size: small;
     font-weight: 300;
 }
+
+#history {
+    margin: auto;
+    width: 50%;
+    height: 50%;
+}

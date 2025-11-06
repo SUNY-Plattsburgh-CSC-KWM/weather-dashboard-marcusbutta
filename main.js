@@ -132,17 +132,17 @@ async function getHistory() {
         }
         const data = await response.json();
         console.log(data);
-        let history = [];
+        let history = { date: [], temperature: [], dewpoint: [], windspeed: [] };
         for (let i = 0; i < data.hourly.time.length/24; i++) {
-            history.push({  date: data.hourly.time[i+24].match(/-(\d{2}-\d{2})/)[1]  })
+            history.date.push(data.hourly.time[i*24].match(/-(\d{2}-\d{2})/)[1]);
             if (temperatureCheck === "temperature_2m,") {
-                history[i].temperature = (data.hourly.temperature_2m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1); // used claude to help with averaging and rounding
+                history.temperature.push((data.hourly.temperature_2m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1)); // used claude to help with averaging and rounding
             }
             if (dewpointCheck === "dewpoint_2m,") {
-                history[i].dewpoint = (data.hourly.dewpoint_2m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1);
+                history.dewpoint.push((data.hourly.dewpoint_2m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1));
             }
             if (windspeedCheck === "windspeed_10m,") {
-                history[i].windspeed =  (data.hourly.windspeed_10m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1);
+                history.windspeed.push((data.hourly.windspeed_10m.slice(i,i+24).reduce((a, b) => a + b) / 24).toFixed(1));
             }
         }
         return history;
@@ -155,6 +155,120 @@ async function buildHistory() {
     try {
         const history = await getHistory();
         console.log(history);
+
+        $("#history").empty();
+        $("#history").append($("<canvas>").attr("id", "historyChart"));
+        $("#history")
+            .css("background", "#363a4f")
+            .css("border-radius", "5px")
+            .css("border", "2px solid #6e738d");
+
+        const ctx = document.getElementById("historyChart");
+
+        Chart.defaults.color = '#cad3f5';
+        Chart.defaults.borderColor = '#8087a2';
+        Chart.defaults.backgroundColor = '#363a4f';
+        Chart.defaults.font.family = "Inter";
+        Chart.defaults.font.size = 14;
+        Chart.defaults.font.weight = 400;
+
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: history.date,
+                datasets: [
+                    {
+                        yAxisID: "temp",
+                        label: "Temperature",
+                        data: history.temperature,
+                        fill: false,
+                        borderColor: "#ed8796",
+                        tension: 0.5,
+                    },
+                    {
+                        yAxisID: "dew",
+                        label: "Dewpoint",
+                        data: history.dewpoint,
+                        fill: false,
+                        borderColor: "#a6da95",
+                        tension: 0.5,
+                    },
+                    {
+                        yAxisID: "wind",
+                        label: "Windspeed",
+                        data: history.windspeed,
+                        fill: false,
+                        borderColor: "#7dc4e4",
+                        tension: 0.5,
+                    }
+                ]
+            },
+            options: { // Got help from https://www.geeksforgeeks.org/javascript/how-to-use-two-y-axes-in-chart-js/
+                responsive: true,
+                scales: {
+                    temp: {
+                        title: {
+                            display: true,
+                            text: "Temperature",
+                        },
+                        type: 'linear',
+                        position: 'left',
+                        ticks:
+                            {
+                                beginAtZero: true,
+                                color: '#ed8796'
+                            },
+                        grid: { display: false },
+                    },
+                    dew: {
+                        title: {
+                            display: true,
+                            text: "Dewpoint",
+                        },
+                        type: 'linear',
+                        position: 'left',
+                        ticks:
+                            {
+                                beginAtZero: true,
+                                color: '#a6da95'
+                            },
+                        grid: { display: false }
+                    },
+                    wind: {
+                        title: {
+                            display: true,
+                            text: "Windspeed",
+                        },
+                        type: 'linear',
+                        position: 'left',
+                        ticks:
+                            {
+                                beginAtZero: true,
+                                color: '#7dc4e4'
+                            },
+                        grid: { display: false }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Date",
+                            font: {
+                                weight: 700,
+                                size: 16,
+                            }
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            }
+        })
     } catch(error) {
         console.error("Error: " + error);
     }
